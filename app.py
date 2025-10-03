@@ -1,7 +1,9 @@
 import streamlit as st
 import openai
+import groq
 from langchain_openai import ChatOpenAI
 from langchain_ollama import ChatOllama
+from langchain_groq import ChatGroq
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 
@@ -23,10 +25,10 @@ prompt = ChatPromptTemplate.from_messages(
 )
 
 def generate_response(choice, question, api_key, llm, temperature, max_tokens):
-    if choice == "OpenAI(Paid)":
+    if choice == "OpenAI (Paid)":
         openai.api_key = api_key
         llm = ChatOpenAI(model=llm)
-    elif choice == "Ollama(Free)":
+    elif choice == "Ollama (Free)":
         llm = ChatOllama(model=llm)
     else:
         pass
@@ -45,18 +47,18 @@ st.title("Enhanced Q&A Chatbot with OpenAI/Ollama")
 st.sidebar.title("Settings")
 
 # Selection of OpenAI/Ollama
-choice = st.sidebar.selectbox("Select your choice.", options=["Select...", "OpenAI(Paid)", "Ollama(Free)"], )
+choice = st.sidebar.selectbox("Select your choice.", options=["Select...", "OpenAI (Paid)", "Ollama (Free)"], )
 
 api_key = None
 llm = None
 
-if choice == "OpenAI(Paid)":
+if choice == "OpenAI (Paid)":
     api_key = st.sidebar.text_input("Enter your OpenAI API key.", type="password")
     # Dropdown --> select OpenAI models
     llm = st.selectbox("Select an OpenAI model.", ["gpt-5", "gpt-4o", "gpt-4-turbo", "gpt-4"])
-elif choice == "Ollama(Free)":
-    # Dropdown --> select OpenAI models
-    llm = st.selectbox("Select an OpenAI model.", ["llama3", "llama2"])  
+elif choice == "Ollama (Free)":
+    # Dropdown --> select Ollama models
+    llm = st.selectbox("Select an Ollama model.", ["llama3", "llama2"])   
 else:
     st.sidebar.info("Please select a provider to continue.") 
 
